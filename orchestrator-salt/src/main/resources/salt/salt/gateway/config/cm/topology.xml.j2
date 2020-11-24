@@ -198,21 +198,21 @@
              {% if 'ATLAS' in exposed and 'ATLAS_SERVER' in salt['pillar.get']('gateway:location') -%}
              <param>
                  <name>ATLAS</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              <param>
                  <name>ATLAS-API</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              {%- endif %}
              {% if 'CM-API' in exposed and 'CM-API' in salt['pillar.get']('gateway:location') -%}
              <param>
                  <name>CM-API</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              <param>
                  <name>CM-UI</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              {%- endif %}
              {% if 'HIVE' in exposed and 'HIVESERVER2' in salt['pillar.get']('gateway:location') -%}
@@ -242,7 +242,7 @@
              {% if 'WEBHDFS' in exposed and 'NAMENODE' in salt['pillar.get']('gateway:location')  -%}
              <param>
                  <name>WEBHDFS</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              {%- endif %}
              {% if 'OOZIE' in exposed and 'OOZIE_SERVER' in salt['pillar.get']('gateway:location') -%}
@@ -258,11 +258,11 @@
              {% if 'RANGER' in exposed and 'RANGER_ADMIN' in salt['pillar.get']('gateway:location') -%}
              <param>
                  <name>RANGER</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              <param>
                  <name>RANGERUI</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              {%- endif %}
              {% if 'YARNUIV2' in exposed and 'RESOURCEMANAGER' in salt['pillar.get']('gateway:location') -%}
@@ -312,7 +312,7 @@
              {% if 'HBASEUI' in exposed and 'MASTER' in salt['pillar.get']('gateway:location') -%}
              <param>
                  <name>HBASEUI</name>
-                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000</value>
+                 <value>enabled=true;maxFailoverAttempts=3;failoverSleep=1000;enableStickySessions=true</value>
              </param>
              {%- endif %}
              {% if 'NIFI' in exposed and 'NIFI_NODE' in salt['pillar.get']('gateway:location') -%}
