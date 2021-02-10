@@ -39,6 +39,7 @@ import com.sequenceiq.cloudbreak.core.flow2.event.ClusterAndStackDownscaleTrigge
 import com.sequenceiq.cloudbreak.core.flow2.event.ClusterCertificatesRotationTriggerEvent;
 import com.sequenceiq.cloudbreak.core.flow2.event.ClusterCredentialChangeTriggerEvent;
 import com.sequenceiq.cloudbreak.core.flow2.event.ClusterDownscaleDetails;
+import com.sequenceiq.cloudbreak.core.flow2.event.ClusterRecoveryTriggerEvent;
 import com.sequenceiq.cloudbreak.core.flow2.event.ClusterScaleTriggerEvent;
 import com.sequenceiq.cloudbreak.core.flow2.event.DatabaseBackupTriggerEvent;
 import com.sequenceiq.cloudbreak.core.flow2.event.DatabaseRestoreTriggerEvent;
@@ -166,6 +167,11 @@ public class ReactorFlowManager {
     public FlowIdentifier triggerDatalakeClusterUpgrade(Long stackId, String imageId) {
         String selector = FlowChainTriggers.DATALAKE_CLUSTER_UPGRADE_CHAIN_TRIGGER_EVENT;
         return reactorNotifier.notify(stackId, selector, new ClusterUpgradeTriggerEvent(selector, stackId, imageId));
+    }
+
+    public FlowIdentifier triggerDatalakeClusterRecovery(Long stackId) {
+        String selector = FlowChainTriggers.CLUSTER_RECOVERY_CHAIN_TRIGGER_EVENT;
+        return reactorNotifier.notify(stackId, selector, new ClusterRecoveryTriggerEvent(selector, stackId));
     }
 
     public FlowIdentifier triggerDistroXUpgrade(Long stackId, ImageChangeDto imageChangeDto, boolean replaceVms) {
