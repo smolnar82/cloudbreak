@@ -21,6 +21,7 @@ import com.sequenceiq.cloudbreak.api.endpoint.v4.util.responses.ResourceEventRes
 import com.sequenceiq.cloudbreak.api.endpoint.v4.util.responses.SecurityRulesV4Response;
 import com.sequenceiq.cloudbreak.api.endpoint.v4.util.responses.StackMatrixV4Response;
 import com.sequenceiq.cloudbreak.api.endpoint.v4.util.responses.SupportedExternalDatabaseServiceEntryV4Response;
+import com.sequenceiq.cloudbreak.api.endpoint.v4.util.responses.UsedImagesListV4Response;
 import com.sequenceiq.cloudbreak.api.util.ConverterUtil;
 import com.sequenceiq.cloudbreak.common.user.CloudbreakUser;
 import com.sequenceiq.cloudbreak.event.ResourceEvent;
@@ -29,6 +30,7 @@ import com.sequenceiq.cloudbreak.service.StackMatrixService;
 import com.sequenceiq.cloudbreak.service.account.PreferencesService;
 import com.sequenceiq.cloudbreak.service.cluster.RepositoryConfigValidationService;
 import com.sequenceiq.cloudbreak.service.filesystem.FileSystemSupportMatrixService;
+import com.sequenceiq.cloudbreak.service.image.UsedImagesProvider;
 import com.sequenceiq.cloudbreak.service.securityrule.SecurityRuleService;
 import com.sequenceiq.cloudbreak.service.stack.flow.StackOperationService;
 import com.sequenceiq.cloudbreak.structuredevent.CloudbreakRestRequestThreadLocalService;
@@ -65,6 +67,9 @@ public class UtilV4Controller extends NotificationController implements UtilV4En
 
     @Inject
     private StackOperationService stackOperationService;
+
+    @Inject
+    private UsedImagesProvider usedImagesProvider;
 
     @Value("${info.app.version:}")
     private String cbVersion;
@@ -129,4 +134,9 @@ public class UtilV4Controller extends NotificationController implements UtilV4En
         return Response.ok().build();
     }
 
+    @Override
+    @CheckPermissionByAccount(action = AuthorizationResourceAction.COLLECT_USED_IMAGES)
+    public UsedImagesListV4Response usedImages() {
+        return usedImagesProvider.getUsedImages();
+    }
 }

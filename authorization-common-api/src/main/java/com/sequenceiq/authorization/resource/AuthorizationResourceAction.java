@@ -81,6 +81,7 @@ public enum AuthorizationResourceAction {
     POWERUSER_ONLY("cloudbreak/allowPowerUserOnly", null),
     LIST_ASSIGNED_ROLES("iam/listAssignedResourceRoles", null),
     STRUCTURED_EVENTS_READ("structured_events/read", AuthorizationResourceType.STRUCTURED_EVENT),
+    COLLECT_USED_IMAGES("cloudbreakadmin/collectUsedImages", null),
     // deprecated actions, please do not use them
     ENVIRONMENT_READ("environments/read", AuthorizationResourceType.ENVIRONMENT),
     ENVIRONMENT_WRITE("environments/write", AuthorizationResourceType.ENVIRONMENT),
