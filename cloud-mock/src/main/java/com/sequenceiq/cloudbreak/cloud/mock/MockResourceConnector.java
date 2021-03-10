@@ -5,6 +5,7 @@ import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,6 +75,13 @@ public class MockResourceConnector implements ResourceConnector<Object> {
         CloudVmInstanceStatus[] cloudVmInstanceStatusArray = mockUrlFactory.get(authenticatedContext, "/spi/add_instance")
                 .post(Entity.entity(groups, MediaType.APPLICATION_JSON_TYPE), CloudVmInstanceStatus[].class);
         return Arrays.asList(cloudVmInstanceStatusArray);
+    }
+
+    @Override
+    public List<CloudResourceStatus> launchLoadBalancers(AuthenticatedContext authenticatedContext, CloudStack stack, PersistenceNotifier persistenceNotifier)
+            throws Exception {
+        // No-op.
+        return Collections.emptyList();
     }
 
     @Override
@@ -207,11 +215,5 @@ public class MockResourceConnector implements ResourceConnector<Object> {
     @Override
     public ExternalDatabaseStatus getDatabaseServerStatus(AuthenticatedContext authenticatedContext, DatabaseStack stack) throws Exception {
         throw new UnsupportedOperationException("Database server status lookup is not supported for " + getClass().getName());
-    }
-
-    @Override
-    public List<CloudResourceStatus> updateLoadBalancers(AuthenticatedContext authenticatedContext, CloudStack stack,
-            PersistenceNotifier persistenceNotifier) {
-        throw new UnsupportedOperationException("Load balancers updates are not supported for " + getClass().getName());
     }
 }

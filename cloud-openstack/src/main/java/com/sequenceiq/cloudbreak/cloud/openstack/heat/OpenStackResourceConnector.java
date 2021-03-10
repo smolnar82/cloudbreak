@@ -121,6 +121,13 @@ public class OpenStackResourceConnector implements ResourceConnector<Object> {
     }
 
     @Override
+    public List<CloudResourceStatus> launchLoadBalancers(AuthenticatedContext authenticatedContext, CloudStack stack, PersistenceNotifier persistenceNotifier)
+            throws Exception {
+        // No-op.
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<CloudResourceStatus> launchDatabaseServer(AuthenticatedContext authenticatedContext, DatabaseStack stack,
         PersistenceNotifier persistenceNotifier) {
         throw new UnsupportedOperationException("Database server launch is not supported for " + getClass().getName());
@@ -399,12 +406,6 @@ public class OpenStackResourceConnector implements ResourceConnector<Object> {
         Map<String, String> parameters = heatTemplateBuilder.buildParameters(
                 authenticatedContext, stack, existingNetwork, existingSubnetCidr);
         return updateHeatStack(authenticatedContext, resources, heatTemplate, parameters);
-    }
-
-    @Override
-    public List<CloudResourceStatus> updateLoadBalancers(AuthenticatedContext authenticatedContext, CloudStack stack,
-            PersistenceNotifier persistenceNotifier) {
-        throw new UnsupportedOperationException("OpenStack load balancers are not currently supported.");
     }
 
     private List<CloudResourceStatus> updateHeatStack(AuthenticatedContext authenticatedContext, List<CloudResource> resources, String heatTemplate,
