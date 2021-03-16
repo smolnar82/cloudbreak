@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.sequenceiq.authorization.service.list.AuthorizationResource;
 import com.sequenceiq.authorization.service.ResourceNameProvider;
+import com.sequenceiq.authorization.service.list.AuthorizationResource;
 import com.sequenceiq.cloudbreak.api.endpoint.v4.common.StackType;
 import com.sequenceiq.cloudbreak.api.endpoint.v4.common.Status;
 import com.sequenceiq.cloudbreak.api.endpoint.v4.dto.NameOrCrn;
@@ -873,6 +873,10 @@ public class StackService implements ResourceIdProvider, ResourceNameProvider {
 
     public List<AuthorizationResource> getAsAuthorizationResources(Long workspaceId, StackType stackType) {
         return stackRepository.getAsAuthorizationResources(workspaceId, stackType);
+    }
+
+    public List<AuthorizationResource> getAsAuthorizationResourcesByCrns(Long workspaceId, StackType stackType, List<String> crns) {
+        return stackRepository.getAsAuthorizationResourcesByCrns(workspaceId, stackType, crns);
     }
 
     public int setMinaSshdServiceIdByStackId(Long id, String minaSshdServiceId) {

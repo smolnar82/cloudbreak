@@ -65,6 +65,10 @@ public interface SdxClusterRepository extends CrudRepository<SdxCluster, Long> {
     List<AuthorizationResource> findAuthorizationResourcesByAccountId(@Param("accountId") String accountId);
 
     @Query("SELECT new com.sequenceiq.authorization.service.list.AuthorizationResource(s.id, s.crn, s.envCrn) FROM SdxCluster s " +
+            "WHERE s.accountId = :accountId AND s.crn IN :crns AND s.deleted IS NULL")
+    List<AuthorizationResource> findAuthorizationResourcesByAccountIdAndCrns(@Param("accountId") String accountId, @Param("crns") List<String> crns);
+
+    @Query("SELECT new com.sequenceiq.authorization.service.list.AuthorizationResource(s.id, s.crn, s.envCrn) FROM SdxCluster s " +
             "WHERE s.accountId = :accountId AND s.envName = :envName AND s.deleted IS NULL")
     List<AuthorizationResource> findAuthorizationResourcesByAccountIdAndEnvName(@Param("accountId") String accountId, @Param("envName") String envName);
 

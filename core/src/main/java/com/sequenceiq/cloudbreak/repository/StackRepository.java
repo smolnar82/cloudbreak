@@ -323,6 +323,15 @@ public interface StackRepository extends WorkspaceResourceRepository<Stack, Long
             + "AND (s.type IS null OR s.type = :stackType)")
     List<AuthorizationResource> getAsAuthorizationResources(@Param("id") Long id, @Param("stackType") StackType stackType);
 
+    @Query("SELECT new com.sequenceiq.authorization.service.list.AuthorizationResource(s.id, s.resourceCrn, s.environmentCrn) "
+            + "FROM Stack s "
+            + "WHERE s.workspace.id = :id "
+            + "AND s.resourceCrn IN :crns "
+            + "AND s.terminated = null "
+            + "AND (s.type IS null OR s.type = :stackType)")
+    List<AuthorizationResource> getAsAuthorizationResourcesByCrns(@Param("id") Long id, @Param("stackType") StackType stackType,
+            @Param("crns") List<String> crns);
+
     @Modifying
     @Query("UPDATE Stack s SET s.minaSshdServiceId = :minaSshdServiceId WHERE s.id = :id")
     int setMinaSshdServiceIdByStackId(@Param("id") Long id, @Param("minaSshdServiceId") String minaSshdServiceId);

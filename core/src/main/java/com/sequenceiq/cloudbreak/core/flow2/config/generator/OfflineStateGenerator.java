@@ -489,6 +489,11 @@ public class OfflineStateGenerator {
         }
 
         @Override
+        public List<AuthorizationResource> getAsAuthorizationResourcesByCrns(Long id, StackType stackType, List<String> crns) {
+            return List.of();
+        }
+
+        @Override
         public int setMinaSshdServiceIdByStackId(Long id, String minaSshdServiceId) {
             return 0;
         }
