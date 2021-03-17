@@ -74,7 +74,7 @@ public class AzureMetadataCollector implements MetadataCollector {
 
                     Integer faultDomainCount = azureClient.getFaultDomainNumber(resourceGroup, vm.name());
 
-                    String publicIp = azureVmPublicIpProvider.getPublicIp(azureClient, azureUtils, networkInterface, resourceGroup);
+                    String publicIp = azureVmPublicIpProvider.getPublicIp(networkInterface);
 
                     String instanceId = instance.getKey();
                     String localityIndicator = Optional.ofNullable(faultDomainCount)

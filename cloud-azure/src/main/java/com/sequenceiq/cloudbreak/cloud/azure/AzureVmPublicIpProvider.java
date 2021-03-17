@@ -8,16 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 class AzureVmPublicIpProvider {
 
-    String getPublicIp(AzureClient azureClient, AzureUtils azureUtils, NetworkInterface networkInterface, String resourceGroup) {
+    String getPublicIp(NetworkInterface networkInterface) {
         PublicIPAddress publicIpAddress = networkInterface.primaryIPConfiguration().getPublicIPAddress();
-        // get LBs associated with the NIC
-        String publicIp = null;
 
-        // throw away the name we constructed above if `publicIpAddress` is available.
         if (publicIpAddress != null && publicIpAddress.ipAddress() != null) {
-            publicIp = publicIpAddress.ipAddress();
+            return publicIpAddress.ipAddress();
+        } else {
+            return null;
         }
-
-        return publicIp;
     }
 }
