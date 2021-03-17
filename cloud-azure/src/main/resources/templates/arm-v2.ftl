@@ -283,10 +283,7 @@
                                    "privateIPAllocationMethod": "Dynamic",
                                    <#if !noPublicIp>
                                    "publicIPAddress": {
-                                       "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(parameters('publicIPNamePrefix'), '${instance.instanceId}'))]",
-                                       "properties": {
-                                            "name": "standard"
-                                       }
+                                       "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(parameters('publicIPNamePrefix'), '${instance.instanceId}'))]"
                                    },
                                    </#if>
                                    <#if existingVPC>
@@ -500,7 +497,7 @@
                     ]
                   },
                   "sku": {
-                    "name": "Standard"
+                    "name": "Basic"
                   }
                 }
                 <#if loadBalancer.type == "PUBLIC">
@@ -510,7 +507,7 @@
                     "name": "${loadBalancer.name}-publicIp",
                     "location": "[parameters('region')]",
                     "sku": {
-                        "name": "Standard"
+                        "name": "Basic"
                     },
                     "properties": {
                         "publicIPAddressVersion": "IPv4",
