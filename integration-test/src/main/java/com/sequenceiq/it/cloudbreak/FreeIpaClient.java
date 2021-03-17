@@ -7,6 +7,7 @@ import java.util.function.Function;
 import com.sequenceiq.cloudbreak.client.ConfigKey;
 import com.sequenceiq.flow.api.FlowPublicEndpoint;
 import com.sequenceiq.freeipa.api.client.FreeIpaApiKeyClient;
+import com.sequenceiq.freeipa.api.client.FreeIpaApiKeyEndpoints;
 import com.sequenceiq.freeipa.api.v1.freeipa.stack.model.common.Status;
 import com.sequenceiq.freeipa.api.v1.freeipa.user.model.UserSyncState;
 import com.sequenceiq.freeipa.api.v1.operation.model.OperationState;
@@ -31,7 +32,7 @@ public class FreeIpaClient extends MicroserviceClient {
 
     private static String crn;
 
-    private com.sequenceiq.freeipa.api.client.FreeIpaClient freeIpaClient;
+    private FreeIpaApiKeyEndpoints freeIpaClient;
 
     FreeIpaClient(String newId) {
         super(newId);
@@ -82,11 +83,11 @@ public class FreeIpaClient extends MicroserviceClient {
         return clientEntity;
     }
 
-    public com.sequenceiq.freeipa.api.client.FreeIpaClient getFreeIpaClient() {
+    public FreeIpaApiKeyEndpoints getFreeIpaClient() {
         return freeIpaClient;
     }
 
-    public void setFreeIpaClient(com.sequenceiq.freeipa.api.client.FreeIpaClient freeIpaClient) {
+    public void setFreeIpaClient(FreeIpaApiKeyEndpoints freeIpaClient) {
         this.freeIpaClient = freeIpaClient;
     }
 

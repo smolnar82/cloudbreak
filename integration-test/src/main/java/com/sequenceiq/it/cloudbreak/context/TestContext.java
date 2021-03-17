@@ -1,6 +1,7 @@
 package com.sequenceiq.it.cloudbreak.context;
 
 import static com.sequenceiq.cloudbreak.auth.ThreadBasedUserCrnProvider.INTERNAL_ACTOR_CRN;
+import static com.sequenceiq.it.cloudbreak.CloudbreakTest.CLOUDBREAK_SERVER_ROOT;
 import static com.sequenceiq.it.cloudbreak.context.RunningParameter.emptyRunningParameter;
 
 import java.time.Duration;
@@ -858,14 +859,18 @@ public abstract class TestContext implements ApplicationContextAware {
 
     public <U extends MicroserviceClient> U getAdminMicroserviceClient(Class<? extends CloudbreakTestDto> testDtoClass, String accountId) {
         String accessKey;
-        if (realUmsUserCacheReadyToUse()) {
-            accessKey = cloudbreakActor.getAdminByAccountId(accountId).getAccessKey();
-            if (clients.get(accessKey) == null || clients.get(accessKey).isEmpty()) {
-                initMicroserviceClientsForUMSAccountAdmin(cloudbreakActor.getAdminByAccountId(accountId));
-            }
+        if (testParameter.get(CLOUDBREAK_SERVER_ROOT).contains("dps.mow") || testParameter.get(CLOUDBREAK_SERVER_ROOT).contains("cdp.mow")) {
+            accessKey = getActingUserAccessKey();
         } else {
-            CloudbreakUser internalActorForAccount = createInternalActorForAccountIfNotExists(accountId);
-            accessKey = internalActorForAccount.getAccessKey();
+            if (realUmsUserCacheReadyToUse()) {
+                accessKey = cloudbreakActor.getAdminByAccountId(accountId).getAccessKey();
+                if (clients.get(accessKey) == null || clients.get(accessKey).isEmpty()) {
+                    initMicroserviceClientsForUMSAccountAdmin(cloudbreakActor.getAdminByAccountId(accountId));
+                }
+            } else {
+                CloudbreakUser internalActorForAccount = createInternalActorForAccountIfNotExists(accountId);
+                accessKey = internalActorForAccount.getAccessKey();
+            }
         }
         U microserviceClient = getMicroserviceClient(testDtoClass, accessKey);
         if (microserviceClient == null) {
@@ -1015,7 +1020,7 @@ public abstract class TestContext implements ApplicationContextAware {
         return entity;
     }
 
-    private <E extends Exception> void exceptionValidation(Class<E> expectedException, Exception actualException, String entityKey,
+    public <E extends Exception> void exceptionValidation(Class<E> expectedException, Exception actualException, String entityKey,
             RunningParameter runningParameter, String stepKey) {
         if (!actualException.getClass().equals(expectedException)) {
             String message = String.format("Expected exception (%s) does not match with the actual exception (%s).",

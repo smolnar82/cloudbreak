@@ -2,16 +2,19 @@ package com.sequenceiq.it.cloudbreak.dto.ums;
 
 import static com.sequenceiq.it.cloudbreak.context.RunningParameter.emptyRunningParameter;
 
+import com.cloudera.thunderhead.service.usermanagement.UserManagementProto.GetRightsResponse;
 import com.sequenceiq.it.cloudbreak.Prototype;
 import com.sequenceiq.it.cloudbreak.UmsClient;
 import com.sequenceiq.it.cloudbreak.action.Action;
 import com.sequenceiq.it.cloudbreak.action.ums.AssignRoleRequest;
 import com.sequenceiq.it.cloudbreak.actor.CloudbreakUser;
+import com.sequenceiq.it.cloudbreak.assertion.Assertion;
+import com.sequenceiq.it.cloudbreak.context.RunningParameter;
 import com.sequenceiq.it.cloudbreak.context.TestContext;
 import com.sequenceiq.it.cloudbreak.dto.AbstractTestDto;
 
 @Prototype
-public class UmsRoleTestDto extends AbstractTestDto<AssignRoleRequest, Object, UmsRoleTestDto, UmsClient> {
+public class UmsRoleTestDto extends AbstractTestDto<AssignRoleRequest, GetRightsResponse, UmsRoleTestDto, UmsClient> {
 
     public static final String CLASSIC_CLUSTERSCREATOR_CRN = "crn:altus:iam:us-west-1:altus:role:ClassicClustersCreator";
 
@@ -135,5 +138,20 @@ public class UmsRoleTestDto extends AbstractTestDto<AssignRoleRequest, Object, U
     @Override
     public UmsRoleTestDto when(Action<UmsRoleTestDto, UmsClient> action) {
         return getTestContext().when((UmsRoleTestDto) this, UmsClient.class, action, emptyRunningParameter());
+    }
+
+    @Override
+    public UmsRoleTestDto when(Action<UmsRoleTestDto, UmsClient> action, RunningParameter runningParameter) {
+        return getTestContext().when((UmsRoleTestDto) this, UmsClient.class, action, runningParameter);
+    }
+
+    @Override
+    public UmsRoleTestDto then(Assertion<UmsRoleTestDto, UmsClient> assertion) {
+        return then(assertion, emptyRunningParameter());
+    }
+
+    @Override
+    public UmsRoleTestDto then(Assertion<UmsRoleTestDto, UmsClient> assertion, RunningParameter runningParameter) {
+        return getTestContext().then((UmsRoleTestDto) this, UmsClient.class, assertion, runningParameter);
     }
 }
