@@ -166,7 +166,7 @@ public class AzureMetadataCollector implements MetadataCollector {
                         .withName(loadBalancerName)
                         .build();
                     cloudLoadBalancerMetadata.add(loadBalancerMetadata);
-                    LOGGER.debug("Saved metadata for load balancer {}: ip {}", loadBalancerName, ip);
+                    LOGGER.debug("Saved metadata for load balancer: {}", loadBalancerMetadata);
                 } else {
                     LOGGER.warn("Unable to find metadata for load balancer {}.", loadBalancerName);
                 }
