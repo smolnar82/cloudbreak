@@ -1,6 +1,7 @@
 package com.sequenceiq.cloudbreak.cmtemplate.configproviders.raz;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
@@ -9,9 +10,12 @@ import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cloudera.api.swagger.model.ApiClusterTemplateRoleConfigGroup;
 import com.cloudera.api.swagger.model.ApiClusterTemplateService;
@@ -26,12 +30,14 @@ import com.sequenceiq.cloudbreak.template.views.DatalakeView;
 import com.sequenceiq.cloudbreak.template.views.HostgroupView;
 import com.sequenceiq.common.api.type.InstanceGroupType;
 
+@ExtendWith(MockitoExtension.class)
 public class RangerRazDatahubConfigProviderTest {
-
-    private final RangerRazDatahubConfigProvider configProvider = new RangerRazDatahubConfigProvider();
 
     @Mock
     private CmTemplateProcessor cmTemplateProcessor;
+
+    @InjectMocks
+    private RangerRazDatahubConfigProvider configProvider;
 
     static Object[][] razCloudPlatformDataProvider() {
         return new Object[][]{
