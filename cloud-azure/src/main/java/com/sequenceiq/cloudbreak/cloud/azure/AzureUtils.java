@@ -454,7 +454,11 @@ public class AzureUtils {
                         })
                         .subscribeOn(Schedulers.io()));
             }
-            Completable.mergeDelayError(deleteCompletables).await();
+            Completable.mergeDelayError(deleteCompletables)
+                    .doOnCompleted(() -> {
+                        LOGGER.debug("Azure load balancers successfully deleted.");
+                    })
+                    .await();
         } catch (CompositeException e) {
             String errorMessages = e.getExceptions().stream().map(Throwable::getMessage).collect(Collectors.joining());
             LOGGER.error("Error(s) occurred while waiting for load balancer deletion: {}", errorMessages);
