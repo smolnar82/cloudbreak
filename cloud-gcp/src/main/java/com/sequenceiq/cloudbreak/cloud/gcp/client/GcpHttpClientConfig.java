@@ -15,7 +15,7 @@ import com.sequenceiq.cloudbreak.cloud.gcp.tracing.GcpTracingInterceptor;
 @Configuration
 public class GcpHttpClientConfig {
 
-    private static final long TIMEOUT = 5L;
+    private static final long TIMEOUT_IN_SECONDS = 5L;
 
     @Bean
     public ApacheHttpTransport gcpApacheHttpTransport(GcpTracingInterceptor gcpTracingInterceptor) {
@@ -27,8 +27,8 @@ public class GcpHttpClientConfig {
         defaultHttpClient.setConnectionBackoffStrategy(new DefaultBackoffStrategy());
         defaultHttpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandlerWithLog());
         HttpParams params = defaultHttpClient.getParams();
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, TIMEOUT * 1000);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, TIMEOUT * 1000);
+        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, TIMEOUT_IN_SECONDS * 1000);
+        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, TIMEOUT_IN_SECONDS * 1000);
         return new ApacheHttpTransport(defaultHttpClient);
     }
 }
