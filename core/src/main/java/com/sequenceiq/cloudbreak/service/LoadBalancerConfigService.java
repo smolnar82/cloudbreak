@@ -182,6 +182,7 @@ public class LoadBalancerConfigService {
                 } else {
                     LOGGER.debug("Private subnet is not available. The internal load balancer will not be created.");
                 }
+
                 if (shouldCreateExternalKnoxLoadBalancer(stack.getNetwork(), environment.getNetwork())) {
                     setupLoadBalancer(dryRun, stack, loadBalancers, knoxTargetGroup.get(), LoadBalancerType.PUBLIC);
                 } else {
@@ -229,9 +230,16 @@ public class LoadBalancerConfigService {
             if (StringUtils.isNotEmpty(subnetId)) {
                 LOGGER.debug("Found selected stack subnet {}", subnetId);
                 Optional<CloudSubnet> selectedSubnet = subnetSelector.findSubnetById(envNetwork.getSubnetMetas(), subnetId);
-                if (selectedSubnet.isPresent()) {
+
+                // "noPublicIp" is an Azure only option that is used to set the network to private or public, it is not
+                // set on AWS networks. So, we check for it first, then fall back to AWS.
+                if (params.get("noPublicIp") != null) {
+                    boolean noPublicIp = (boolean) params.get("noPublicIp");
+                    LOGGER.debug("Subnet {} type {}", subnetId, noPublicIp ? "private" : "public");
+                    return privateType == noPublicIp;
+                } else if (selectedSubnet.isPresent()) {
                     LOGGER.debug("Subnet {} type {}", subnetId, selectedSubnet.get().isPrivateSubnet() ? "private" : "public");
-                    return privateType == selectedSubnet.get().isPrivateSubnet();
+                    return privateType == selectedSubnet.get().isPrivateSubnet(); // Azure subnets are always "false" for `isPrivateSubnet`.
                 }
             }
         }
