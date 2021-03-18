@@ -1,6 +1,7 @@
 package com.sequenceiq.cloudbreak.cloud.gcp.client;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
@@ -11,6 +12,12 @@ import org.slf4j.LoggerFactory;
 class DefaultHttpRequestRetryHandlerWithLog extends DefaultHttpRequestRetryHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHttpRequestRetryHandlerWithLog.class);
+
+    private static final int RETRY_COUNT = 5;
+
+    public DefaultHttpRequestRetryHandlerWithLog() {
+        super(RETRY_COUNT, false, List.of());
+    }
 
     @Override
     public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
